@@ -208,8 +208,8 @@ _(in order of first appearance)_
     * [Coordinator firmware](https://github.com/Koenkk/Z-Stack-firmware/raw/master/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_20220219.zip)  
     * [Router firmware](https://github.com/Koenkk/Z-Stack-firmware/raw/master/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_20220125.zip)  
     * Flashing instructions; see "Flashing CC1352/CC2652/CC2538 based adapters" below
-    * [Description](https://z2m.wiki/)  
-    * [Buy](https://z2m.wiki/)  
+    * [Description](https://z2m.store/)  
+    * [Buy](https://z2m.store/)  
   
     ![](../../images/CC2652P-Z2M.jpg)
     </details>
@@ -390,7 +390,7 @@ The adapters below are well-supported but use outdated chips.
   
     An open source zigbee gateway powered by ESP8266 and CC2538+CC2592PA (XGG 38PZ2MGateway) or CC2530 (XGG 30Z2MGateway)  
     Coordinator firmware: [XGG 38PZ2MGateway](https://github.com/Koenkk/Z-Stack-firmware/tree/master/coordinator/Z-Stack_3.0.x/bin) [XGG 30Z2MGateway](https://github.com/Koenkk/Z-Stack-firmware/tree/master/coordinator/Z-Stack_Home_1.2/bin)  
-    * [Contact](https://z2m.wiki/)
+    * [Contact](https://z2m.store/)
   
     ![](../../images/CC2652P-Z2M.jpg)
     </details>
@@ -509,6 +509,24 @@ Initial development started on experimental (beta stage) support for Silicon Lab
     ![](../../images/TubesZB_efr32.jpg)
     </details>
 
+* Hybrid (network LAN + wifi Coordinator)
+
+  * <details>
+    <summary>XGG Zigbee EFR32 pro ethernet/wifi serial coordinator</summary>
+  
+    XGG Zigbee EFR32 pro works only over (wired LAN) while his later models can be set to work either over Ethernet or wifi .
+
+   try adding the following to your `configuration.yaml`
+    ```yaml
+    serial:
+      port: tcp://zbgw_efr32_pro.local:6638
+      adapter: ezsp
+    ```
+   
+    * [Coordinator firmware](https://github.com/grobasoz/zigbee-firmware)
+    * [Buy](https://z2m.store) (https://z2m.store)
+
+    </details>
 ### Based on ZiGate
   
 Initial development started on experimental (alpha stage) support for various ZigGate adapters.  This includes all ZiGate compatible hardware adapters which are currently based on NXP Zigbee MCU chips like JN5168 and JN5169  with ZigGate 3.1d firmware or later.
