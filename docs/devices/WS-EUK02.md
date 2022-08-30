@@ -1,23 +1,39 @@
 ---
 title: "Xiaomi WS-EUK02 control via MQTT"
-description: "Integrate your Xiaomi WS-EUK02 via Zigbee2MQTT with whatever smart home
- infrastructure you are using without the vendors bridge or gateway."
+description: "Integrate your Xiaomi WS-EUK02 via Zigbee2MQTT with whatever smart home infrastructure you are using without the vendor's bridge or gateway."
+addedAt: 2021-08-01T20:41:55Z
+pageClass: device-page
 ---
 
-*To contribute to this page, edit the following
-[file](https://github.com/Koenkk/zigbee2mqtt.io/blob/master/docs/devices/WS-EUK02.md)*
+<!-- !!!! -->
+<!-- ATTENTION: This file is auto-generated through docgen! -->
+<!-- You can only edit the "Notes"-Section between the two comment lines "Notes BEGIN" and "Notes END". -->
+<!-- Do not use h1 or h2 heading within "## Notes"-Section. -->
+<!-- !!!! -->
 
 # Xiaomi WS-EUK02
 
+|     |     |
+|-----|-----|
 | Model | WS-EUK02  |
 | Vendor  | Xiaomi  |
 | Description | Aqara smart wall switch H1 EU (no neutral, double rocker) |
-| Exposes | switch (state), power_outage_memory, operation_mode, action, linkquality |
-| Picture | ![Xiaomi WS-EUK02](../images/devices/WS-EUK02.jpg) |
+| Exposes | switch (state), power_outage_memory, flip_indicator_light, led_disabled_night, power_outage_count, device_temperature, operation_mode, mode_switch, action, linkquality |
+| Picture | ![Xiaomi WS-EUK02](https://www.zigbee2mqtt.io/images/devices/WS-EUK02.jpg) |
 
-## Notes
 
-None
+<!-- Notes BEGIN: You can edit here. Add "## Notes" headline if not already present. -->
+
+
+<!-- Notes END: Do not edit below this line -->
+
+
+## Options
+*[How to use device type specific configuration](../guide/configuration/devices-groups.md#specific-device-options)*
+
+* `device_temperature_precision`: Number of digits after decimal point for device_temperature, takes into effect on next report of device. The value must be a number with a minimum value of `0` and with a with a maximum value of `3`
+
+* `device_temperature_calibration`: Calibrates the device_temperature value (absolute offset), takes into effect on next report of device. The value must be a number.
 
 
 ## Exposes
@@ -39,6 +55,31 @@ To read (`/get`) the value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME
 To write (`/set`) a value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/set` with payload `{"power_outage_memory": NEW_VALUE}`.
 If value equals `true` power_outage_memory is ON, if `false` OFF.
 
+### Flip_indicator_light (binary)
+After turn on, the indicator light turns on while switch is off, and vice versa.
+Value can be found in the published state on the `flip_indicator_light` property.
+To read (`/get`) the value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/get` with payload `{"flip_indicator_light": ""}`.
+To write (`/set`) a value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/set` with payload `{"flip_indicator_light": NEW_VALUE}`.
+If value equals `ON` flip_indicator_light is ON, if `OFF` OFF.
+
+### Led_disabled_night (binary)
+Enable/disable the LED at night.
+Value can be found in the published state on the `led_disabled_night` property.
+To read (`/get`) the value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/get` with payload `{"led_disabled_night": ""}`.
+To write (`/set`) a value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/set` with payload `{"led_disabled_night": NEW_VALUE}`.
+If value equals `true` led_disabled_night is ON, if `false` OFF.
+
+### Power_outage_count (numeric)
+Number of power outages (since last pairing).
+Value can be found in the published state on the `power_outage_count` property.
+It's not possible to read (`/get`) or write (`/set`) this value.
+
+### Device_temperature (numeric)
+Temperature of the device.
+Value can be found in the published state on the `device_temperature` property.
+It's not possible to read (`/get`) or write (`/set`) this value.
+The unit of this value is `°C`.
+
 ### Operation_mode (enum, left endpoint)
 Decoupled mode for left button.
 Value can be found in the published state on the `operation_mode_left` property.
@@ -53,6 +94,13 @@ To read (`/get`) the value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME
 To write (`/set`) a value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/set` with payload `{"operation_mode_right": NEW_VALUE}`.
 The possible values are: `control_relay`, `decoupled`.
 
+### Mode_switch (enum)
+Anti flicker mode can be used to solve blinking issues of some lights.Quick mode makes the device respond faster..
+Value can be found in the published state on the `mode_switch` property.
+To read (`/get`) the value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/get` with payload `{"mode_switch": ""}`.
+To write (`/set`) a value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/set` with payload `{"mode_switch": NEW_VALUE}`.
+The possible values are: `anti_flicker_mode`, `quick_mode`.
+
 ### Action (enum)
 Triggered action (e.g. a button click).
 Value can be found in the published state on the `action` property.
@@ -65,102 +113,4 @@ Value can be found in the published state on the `linkquality` property.
 It's not possible to read (`/get`) or write (`/set`) this value.
 The minimal value is `0` and the maximum value is `255`.
 The unit of this value is `lqi`.
-
-## Manual Home Assistant configuration
-Although Home Assistant integration through [MQTT discovery](../integration/home_assistant) is preferred,
-manual integration is possible with the following configuration:
-
-
-{% raw %}
-```yaml
-switch:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    payload_off: "OFF"
-    payload_on: "ON"
-    value_template: "{{ value_json.state_left }}"
-    command_topic: "zigbee2mqtt/<FRIENDLY_NAME>/left/set"
-
-switch:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    payload_off: "OFF"
-    payload_on: "ON"
-    value_template: "{{ value_json.state_right }}"
-    command_topic: "zigbee2mqtt/<FRIENDLY_NAME>/right/set"
-
-switch:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{% if value_json.power_outage_memory %} true {% else %} false {% endif %}"
-    payload_on: "true"
-    payload_off: "false"
-    command_topic: "zigbee2mqtt/<FRIENDLY_NAME>/set"
-    command_topic_postfix: "power_outage_memory"
-
-sensor:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{{ value_json.operation_mode_left }}"
-    enabled_by_default: false
-    icon: "mdi:tune"
-
-select:
-  - platform: "mqtt"
-    state_topic: true
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{{ value_json.operation_mode_left }}"
-    command_topic: "zigbee2mqtt/<FRIENDLY_NAME>/left/set"
-    command_topic_postfix: "operation_mode_left"
-    options: 
-      - "control_relay"
-      - "decoupled"
-    enabled_by_default: false
-    icon: "mdi:tune"
-
-sensor:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{{ value_json.operation_mode_right }}"
-    enabled_by_default: false
-    icon: "mdi:tune"
-
-select:
-  - platform: "mqtt"
-    state_topic: true
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{{ value_json.operation_mode_right }}"
-    command_topic: "zigbee2mqtt/<FRIENDLY_NAME>/right/set"
-    command_topic_postfix: "operation_mode_right"
-    options: 
-      - "control_relay"
-      - "decoupled"
-    enabled_by_default: false
-    icon: "mdi:tune"
-
-sensor:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{{ value_json.action }}"
-    enabled_by_default: true
-    icon: "mdi:gesture-double-tap"
-
-sensor:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{{ value_json.linkquality }}"
-    unit_of_measurement: "lqi"
-    enabled_by_default: false
-    icon: "mdi:signal"
-    state_class: "measurement"
-```
-{% endraw %}
-
 

@@ -1,23 +1,43 @@
 ---
 title: "Aurora Lighting AU-A1ZBDSS control via MQTT"
-description: "Integrate your Aurora Lighting AU-A1ZBDSS via Zigbee2MQTT with whatever smart home
- infrastructure you are using without the vendors bridge or gateway."
+description: "Integrate your Aurora Lighting AU-A1ZBDSS via Zigbee2MQTT with whatever smart home infrastructure you are using without the vendor's bridge or gateway."
+addedAt: 2021-03-30T20:29:35Z
+pageClass: device-page
 ---
 
-*To contribute to this page, edit the following
-[file](https://github.com/Koenkk/zigbee2mqtt.io/blob/master/docs/devices/AU-A1ZBDSS.md)*
+<!-- !!!! -->
+<!-- ATTENTION: This file is auto-generated through docgen! -->
+<!-- You can only edit the "Notes"-Section between the two comment lines "Notes BEGIN" and "Notes END". -->
+<!-- Do not use h1 or h2 heading within "## Notes"-Section. -->
+<!-- !!!! -->
 
 # Aurora Lighting AU-A1ZBDSS
 
+|     |     |
+|-----|-----|
 | Model | AU-A1ZBDSS  |
 | Vendor  | Aurora Lighting  |
 | Description | Double smart socket UK |
-| Exposes | switch (state), power, linkquality |
-| Picture | ![Aurora Lighting AU-A1ZBDSS](../images/devices/AU-A1ZBDSS.jpg) |
+| Exposes | switch (state), power, brightness, linkquality |
+| Picture | ![Aurora Lighting AU-A1ZBDSS](https://www.zigbee2mqtt.io/images/devices/AU-A1ZBDSS.jpg) |
 
-## Notes
 
-None
+<!-- Notes BEGIN: You can edit here. Add "## Notes" headline if not already present. -->
+
+
+<!-- Notes END: Do not edit below this line -->
+
+
+## Options
+*[How to use device type specific configuration](../guide/configuration/devices-groups.md#specific-device-options)*
+
+* `transition`: Controls the transition time (in seconds) of on/off, brightness, color temperature (if applicable) and color (if applicable) changes. Defaults to `0` (no transition). The value must be a number with a minimum value of `0`
+
+* `power_calibration`: Calibrates the power value (percentual offset), takes into effect on next report of device. The value must be a number.
+
+* `current_calibration`: Calibrates the current value (percentual offset), takes into effect on next report of device. The value must be a number.
+
+* `voltage_calibration`: Calibrates the voltage value (percentual offset), takes into effect on next report of device. The value must be a number.
 
 
 ## Exposes
@@ -44,66 +64,17 @@ Value can be found in the published state on the `power_right` property.
 It's not possible to read (`/get`) or write (`/set`) this value.
 The unit of this value is `W`.
 
+### Brightness (numeric)
+Brightness of this backlight LED.
+Value can be found in the published state on the `brightness` property.
+To read (`/get`) the value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/get` with payload `{"brightness": ""}`.
+To write (`/set`) a value publish a message to topic `zigbee2mqtt/FRIENDLY_NAME/set` with payload `{"brightness": NEW_VALUE}`.
+The minimal value is `0` and the maximum value is `254`.
+
 ### Linkquality (numeric)
 Link quality (signal strength).
 Value can be found in the published state on the `linkquality` property.
 It's not possible to read (`/get`) or write (`/set`) this value.
 The minimal value is `0` and the maximum value is `255`.
 The unit of this value is `lqi`.
-
-## Manual Home Assistant configuration
-Although Home Assistant integration through [MQTT discovery](../integration/home_assistant) is preferred,
-manual integration is possible with the following configuration:
-
-
-{% raw %}
-```yaml
-switch:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    payload_off: "OFF"
-    payload_on: "ON"
-    value_template: "{{ value_json.state_left }}"
-    command_topic: "zigbee2mqtt/<FRIENDLY_NAME>/left/set"
-
-switch:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    payload_off: "OFF"
-    payload_on: "ON"
-    value_template: "{{ value_json.state_right }}"
-    command_topic: "zigbee2mqtt/<FRIENDLY_NAME>/right/set"
-
-sensor:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{{ value_json.power_left }}"
-    unit_of_measurement: "W"
-    device_class: "power"
-    state_class: "measurement"
-
-sensor:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{{ value_json.power_right }}"
-    unit_of_measurement: "W"
-    device_class: "power"
-    state_class: "measurement"
-
-sensor:
-  - platform: "mqtt"
-    state_topic: "zigbee2mqtt/<FRIENDLY_NAME>"
-    availability_topic: "zigbee2mqtt/bridge/state"
-    value_template: "{{ value_json.linkquality }}"
-    unit_of_measurement: "lqi"
-    enabled_by_default: false
-    icon: "mdi:signal"
-    state_class: "measurement"
-```
-{% endraw %}
-
 
